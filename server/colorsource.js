@@ -25,7 +25,7 @@ function newColor() {
     // }
 
 const sendColor = ()=> {
-    console.log('in sendColor')
+    // console.log('in sendColor')
     axios({
             method: 'POST',
             url: 'http://localhost:5000/color',

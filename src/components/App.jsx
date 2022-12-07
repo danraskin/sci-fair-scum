@@ -4,11 +4,8 @@ import './App.css';
 
 function App() {
 
-    const [ facts, setFacts ] = useState([]);
     const [ listening, setListening ] = useState(false);
-
-    const [randomColor, setColor] = useState([1,59,100]);    
-    // let randomColor=[];
+    const [randomColor, setColor] = useState([0,0,0]);    
 
     useEffect( () =>{
         if (!listening) {
@@ -27,22 +24,6 @@ function App() {
         __().sine().delay().dac(.05);
     }, [listening, randomColor]);
 
-
-
-
-    // //start
-
-
-
-    // var es = new EventSource('localhost:5000/stream');
- 
-    // es.onmessage = function (event) {
-    //     console.log('event?',event);
-    // };
-    
-    // es.addEventListener(eventName, function (event) {
-    // });
-
     return(
         <>
             {
@@ -53,7 +34,7 @@ function App() {
                     }}
                 ></div>
             }
-            <button onClick={e=>newColor()}>new color</button>
+            {/* <button onClick={e=>newColor()}>new color</button> */}
 
             {/* <div>
                 {
