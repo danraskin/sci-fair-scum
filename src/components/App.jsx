@@ -1,42 +1,50 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import './App.css';
 
 
 function App() {
 
-    const [randomColor, setColor] = useState([1,59,100]);    
-    // let randomColor=[];
-    function randomInteger(max) {
-        return Math.floor(Math.random()*(max + 1));
-    }
-    
-    function newColor() {
-        let r = randomInteger(255);
-        let g = randomInteger(255);
-        let b = randomInteger(255);
-        setColor([r,g,b]);
-        console.log(randomColor);
+    const [ listening, setListening ] = useState(false);
+    const [randomColor, setColor] = useState([0,0,0]);    
 
-    }
+    useEffect( () =>{
+        if (!listening) {
+            const events = new EventSource('http://localhost:5000/stream');
 
-    var es = new EventSource('localhost:5000/stream');
- 
-    es.onmessage = function (event) {
-        console.log('event?',event);
-    };
-    
-    // es.addEventListener(eventName, function (event) {
-    // });
+            events.onmessage = (event) => {
+                const parsedData = JSON.parse(event.data);
+                console.log('in useEffect:', parsedData);
+
+                // setFacts((facts) => facts.concat(parsedData));
+                setColor(parsedData);
+                // console.log(randomColor);
+            }
+            setListening(true);
+        }
+        __().sine().delay().dac(.05);
+    }, [listening, randomColor]);
 
     return(
         <>
-            <div
-                className="newColor"
-                style={{
-                     backgroundColor: `rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`
-                }}
-            ></div>
-            <button onClick={e=>newColor()}>new color</button>
+            {
+                randomColor && <div
+                    className="newColor"
+                    style={{
+                        backgroundColor: `rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`
+                    }}
+                ></div>
+            }
+            {/* <button onClick={e=>newColor()}>new color</button> */}
+
+            {/* <div>
+                {
+                    facts.map((fact, i) => (
+                        <ul key={i}>
+                            <li>{fact.info}: {fact.source}</li>
+                        </ul>
+                    ))
+                }
+            </div> */}
         </>
     )
 }

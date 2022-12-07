@@ -1,10 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-    // const SSE = require('express-sse');
 const cors = require('cors');
-const { response } = require('express');
 
 const app = express();
+
+const colorRouter = require('./routes/color.router.js');
 
 // CORS tutorial
 app.use(cors());
@@ -14,10 +14,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 //initialize server? i don''t know what this does
 app.get('/status', (req, res) => {
-    response.json({clients: clients.length})
+    res.json({clients: clients.length})
 });
 
-// middleware for GET requests to the /events endpoint.
+// middleware for GET requests to the /stream endpoint.
 
 function eventsHandler(req, res, next) {
     const headers = {
@@ -27,7 +27,7 @@ function eventsHandler(req, res, next) {
     }
     res.writeHead(200, headers);
 
-    const data = `data: ${JSON.stringify(facts)}\n\n`;
+    const data = `data: ${JSON.stringify(colors)}\n\n`;
 
     res.write(data);
 
@@ -46,24 +46,26 @@ function eventsHandler(req, res, next) {
     });
 }
 
-// middleware for POST requests to /fact endpoint.
+// middleware for POST requests to /color endpoint.
 
-function sendEventsToAll(newFact) {
+function sendEventsToAll(newColor) {
     clients.forEach(client => client.res.write(
-        `data: ${JSON.stringify(newFact)}\n\n`
+        `data: ${JSON.stringify(newColor)}\n\n`
     ));
 }
 
-async function addFact(req, res, next) {
-    const newFact = req.body;
-    facts.push(newFact);
-    res.json(newFact);
-    return sendEventsToAll(newFact);
+async function addColor(req, res, next) {
+    const newColor = req.body;
+    console.log(req.body);
+    // colors.push(newColor);
+    res.json(newColor);
+    return sendEventsToAll(newColor);
 }
 
-app.post('/fact', addFact);
+app.post('/color', addColor);
+// app.use('/color', colorRouter);
 
-app.get('/events', eventsHandler); 
+app.get('/stream', eventsHandler); 
 // youtube tutorial >>>>>>
     // app.get("/", (req, res) => res.send("hello!"));
 
@@ -78,22 +80,6 @@ app.get('/events', eventsHandler);
     //     setTimeout(()=>send(res), 1000);
     // }
 
-// express-sse stuff >>>>>>
-    // const sse = new SSE(["array","containing","initial","(optional)"])
-
-    // app.get('/stream', sse.init);
-
-    // const content = 'hello';
-    // let eventName = 'event';
-    // let customID = 2;
-
-    // sse.send(content);
-    // sse.send(content, eventName);
-    // sse.send(content, eventName, customID);
-    // sse.updateInit(["array", "containing", "new", "content"]);
-    // sse.serialize(["array", "to", "be", "sent", "as", "serialized", "events"]);
-
-
 // Serve static files
 app.use(express.static('build'));
 
@@ -101,7 +87,7 @@ app.use(express.static('build'));
 const PORT = process.env.PORT || 5000;
 
 let clients = [];
-let facts = [];
+let colors = [];
 
 /** Listen * */
 app.listen(PORT, () => {
