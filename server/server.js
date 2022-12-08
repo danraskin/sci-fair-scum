@@ -5,6 +5,8 @@ const cors = require('cors');
 const app = express();
 
 const colorRouter = require('./routes/color.router.js');
+const streamRouter = require('./routes/stream.router.js');
+const stream = streamRouter.router
 
 // CORS tutorial
 app.use(cors()); // allows cross-origin request sharing from all sources. see cors api for more uses.
@@ -16,61 +18,55 @@ app.use(bodyParser.urlencoded({extended: false}));
 //     res.json({clients: clients.length})
 // });
 
-// middleware for GET requests to the /stream endpoint.
+// // middleware for GET requests to the /stream endpoint.
 
-function eventsHandler(req, res, next) {
-    // headers necessary for SSE
-    const headers = {
-        'Content-Type': 'text/event-stream',
-        'Connection': 'keep-alive',
-        'Cache-Control': 'no-cache',
-    }
-    res.writeHead(200, headers);
+// let clients = [];
+// function eventsHandler(req, res, next) {
+//     const headers = {
+//         'Content-Type': 'text/event-stream',
+//         'Connection': 'keep-alive',
+//         'Cache-Control': 'no-cache',
+//     } // headers necessary for SSE
+//     res.writeHead(200, headers); //sends headers to client
 
-    const data = `data: ${JSON.stringify(colors)}\n\n`;
-    res.write(data);
-    const clientId = Date.now();
-    const newClient = {
-        id: clientId,
-        res
-    };
+//     const clientId = Date.now();
+//     const newClient = {
+//         id: clientId,
+//         res
+//     };
+//     clients.push(newClient); // stores new client to client list
 
-    clients.push(newClient);
+//     req.on('close', () => {
+//         console.log(`${clientId} Connection closed`);
+//         clients = clients.filter(client => client.id !== clientId);
+//     });
+// }
 
-    req.on('close', () => {
-        console.log(`${clientId} Connection closed`);
-        clients = clients.filter(client => client.id !== clientId);
-    });
-}
+// // middleware for POST requests to /color endpoint.
 
-// middleware for POST requests to /color endpoint.
+// function sendEventsToAll(newColor) {
+//     clients.forEach(client => client.res.write(
+//         `data: ${JSON.stringify(newColor)}\n\n`
 
-function sendEventsToAll(newColor) {
-    clients.forEach(client => client.res.write(
-        `data: ${JSON.stringify(newColor)}\n\n`
+//     ));
+// }
 
-    ));
-}
+// async function addColor(req, res, next) {
+//     const newColor = req.body;
+//     console.log(req.body);
+//     // colors.push(newColor);
+//     res.json(newColor);
+//     return sendEventsToAll(newColor);
+// }
 
-async function addColor(req, res, next) {
-    const newColor = req.body;
-    console.log(req.body);
-    // colors.push(newColor);
-    res.json(newColor);
-    return sendEventsToAll(newColor);
-}
-
-app.post('/color', addColor);
-app.get('/stream', eventsHandler); 
+app.use('/color', colorRouter);
+app.use('/stream', stream); 
 
 // Serve static files
 app.use(express.static('build'));
 
 // App Set //
 const PORT = process.env.PORT || 5000;
-
-let clients = [];
-let colors = [];
 
 /** Listen * */
 app.listen(PORT, () => {

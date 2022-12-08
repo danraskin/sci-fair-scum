@@ -10,13 +10,7 @@ function App() {
     useEffect( () =>{
         if (!listening) {
             const streamSource = process.env.STREAMSOURCE || 'http://localhost:5000/stream'
-            const events = new EventSource(streamSource); //try this out for heroku deploy
-            if(process.env.PORT) {
-                console.log(process.env.PORT)
-            } else {
-                console.log('no process.')
-            }
-        
+            const events = new EventSource(streamSource);
 
             events.onmessage = (event) => {
                 const parsedData = JSON.parse(event.data);

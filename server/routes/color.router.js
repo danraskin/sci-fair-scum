@@ -1,19 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const { clients } = require('./stream.router.js');
 
+// middleware for POST requests to /color endpoint.
 
-function sendEventsToAll(newFact) {
+router.post('/', async ( req, res ) => {
+    const newColor = req.body;
+    console.log(req.body);
+    res.json(newColor);
+
     clients.forEach(client => client.res.write(
-        `data: ${JSON.stringify(newFact)}\n\n`
+        `data: ${JSON.stringify(newColor)}\n\n`
     ));
-}
+}); 
 
-
-router.post('/', async (req, res) => {
-    console.log('in color.router')
-    // const newFact = req.body;
-    // colors.push(newFact);
-    // res.json(newFact);
-    // return sendEventsToAll(newFact);
-
-})
+module.exports = router;
