@@ -18,12 +18,6 @@ function newColor() {
     return [r,g,b];
 }
 
-// console.log(newColor());
-    // function send (res) {
-    //     res.write("data: " + `hello!${i++}\n\n`);
-    //     setTimeout(()=>send(res), 1000);
-    // }
-
 const sendColor = ()=> {
     // console.log('in sendColor')
     axios({

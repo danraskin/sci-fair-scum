@@ -7,12 +7,12 @@ const app = express();
 const colorRouter = require('./routes/color.router.js');
 
 // CORS tutorial
-app.use(cors());
+app.use(cors()); // allows cross-origin request sharing from all sources. see cors api for more uses.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 
-//initialize server? i don''t know what this does
+//initialize server? i don''t know what this does. comment out for future.
 app.get('/status', (req, res) => {
     res.json({clients: clients.length})
 });
@@ -20,10 +20,11 @@ app.get('/status', (req, res) => {
 // middleware for GET requests to the /stream endpoint.
 
 function eventsHandler(req, res, next) {
+    // headers necessary for SSE
     const headers = {
         'Content-Type': 'text/event-stream',
         'Connection': 'keep-alive',
-        'Cache-Control': 'no-cache'
+        'Cache-Control': 'no-cache',
     }
     res.writeHead(200, headers);
 
@@ -51,6 +52,7 @@ function eventsHandler(req, res, next) {
 function sendEventsToAll(newColor) {
     clients.forEach(client => client.res.write(
         `data: ${JSON.stringify(newColor)}\n\n`
+
     ));
 }
 
@@ -63,22 +65,8 @@ async function addColor(req, res, next) {
 }
 
 app.post('/color', addColor);
-// app.use('/color', colorRouter);
 
 app.get('/stream', eventsHandler); 
-// youtube tutorial >>>>>>
-    // app.get("/", (req, res) => res.send("hello!"));
-
-    // app.get("/stream", (req,res) => {
-    //     res.setHeader("Content-Type", "text/event-stream");
-    //     send(res);
-    // })
-
-    // let i = 0;
-    // function send (res) {
-    //     res.write("data: " + `hello!${i++}\n\n`);
-    //     setTimeout(()=>send(res), 1000);
-    // }
 
 // Serve static files
 app.use(express.static('build'));

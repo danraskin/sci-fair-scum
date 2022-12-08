@@ -9,15 +9,13 @@ function App() {
 
     useEffect( () =>{
         if (!listening) {
-            const events = new EventSource('https://sci-fair-scum.herokuapp.com/stream'); //try this out for heroku deploy
+            //const events = new EventSource('https://sci-fair-scum.herokuapp.com/stream'); //try this out for heroku deploy
+            const events = new EventSource('http://localhost:5000/stream'); //for local deploy. does process.env.PORT work here?
 
             events.onmessage = (event) => {
                 const parsedData = JSON.parse(event.data);
                 console.log('in useEffect:', parsedData);
-
-                // setFacts((facts) => facts.concat(parsedData));
                 setColor(parsedData);
-                // console.log(randomColor);
             }
             setListening(true);
         }
