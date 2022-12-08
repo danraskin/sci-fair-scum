@@ -28,7 +28,8 @@ const sendColor = ()=> {
     // console.log('in sendColor')
     axios({
             method: 'POST',
-            url: 'https://git.heroku.com/sci-fair-scum/color',
+            // url: 'https://git.heroku.com/sci-fair-scum/color',
+            url: 'http://localhost:5000/color',
             data: newColor()
         })
     .then((res)=>{
