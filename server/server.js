@@ -11,11 +11,10 @@ app.use(cors()); // allows cross-origin request sharing from all sources. see co
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-
 //initialize server? i don''t know what this does. comment out for future.
-app.get('/status', (req, res) => {
-    res.json({clients: clients.length})
-});
+// app.get('/status', (req, res) => {
+//     res.json({clients: clients.length})
+// });
 
 // middleware for GET requests to the /stream endpoint.
 
@@ -29,18 +28,15 @@ function eventsHandler(req, res, next) {
     res.writeHead(200, headers);
 
     const data = `data: ${JSON.stringify(colors)}\n\n`;
-
     res.write(data);
-
     const clientId = Date.now();
-
     const newClient = {
         id: clientId,
         res
     };
 
     clients.push(newClient);
-
+    
     req.on('close', () => {
         console.log(`${clientId} Connection closed`);
         clients = clients.filter(client => client.id !== clientId);
