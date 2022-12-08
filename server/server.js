@@ -62,10 +62,15 @@ async function addColor(req, res, next) {
     return sendEventsToAll(newColor);
 }
 
+const corsOptions = {
+    origin: 'https://git.heroku.com/sci-fair-scum',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+
 app.post('/color', addColor);
 // app.use('/color', colorRouter);
 
-app.get('/stream', cors(), eventsHandler); 
+app.get('/stream', cors(corsOptions), eventsHandler); 
 // youtube tutorial >>>>>>
     // app.get("/", (req, res) => res.send("hello!"));
 
