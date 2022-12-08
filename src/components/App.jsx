@@ -9,7 +9,7 @@ function App() {
 
     useEffect( () =>{
         if (!listening) {
-            const events = new EventSource('http://localhost:5000/stream'); //try this out for heroku deploy
+            const events = new EventSource('https://git.heroku.com/sci-fair-scum/stream'); //try this out for heroku deploy
 
             events.onmessage = (event) => {
                 const parsedData = JSON.parse(event.data);

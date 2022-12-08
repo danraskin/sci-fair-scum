@@ -62,15 +62,17 @@ async function addColor(req, res, next) {
     return sendEventsToAll(newColor);
 }
 
-const corsOptions = {
-    origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+// const corsOptions = {
+//     origin: 'http://localhost:3000',
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   }
+
+app.options('*', cors())
 
 app.post('/color', addColor);
 // app.use('/color', colorRouter);
 
-app.get('/stream', cors(corsOptions), eventsHandler); 
+app.get('/stream', eventsHandler); 
 // youtube tutorial >>>>>>
     // app.get("/", (req, res) => res.send("hello!"));
 
