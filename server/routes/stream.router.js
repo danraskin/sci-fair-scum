@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 // middleware for GET requests to the /stream endpoint.
+// This modules establishes server-client connection for SSE.
+// colors.router.js POSTS to client.
 
 let clients = [];
 
