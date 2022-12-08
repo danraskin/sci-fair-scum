@@ -65,7 +65,7 @@ async function addColor(req, res, next) {
 app.post('/color', addColor);
 // app.use('/color', colorRouter);
 
-app.get('/stream', eventsHandler); 
+app.get('/stream', cors(), eventsHandler); 
 // youtube tutorial >>>>>>
     // app.get("/", (req, res) => res.send("hello!"));
 
