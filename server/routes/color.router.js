@@ -9,11 +9,10 @@ const { clients } = require('./stream.router.js');
 router.post('/', async ( req, res ) => {
     const newColor = req.body;
     // console.log(req.body);
-    // res.json(newColor);
-
+    res.json(newColor);
     clients.forEach(client => client.res.write(
         `data: ${JSON.stringify(newColor)}\n\n`
-    ));
+    )); //response to client must be in this format for SSE
 }); 
 
 module.exports = router;
