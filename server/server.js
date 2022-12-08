@@ -36,7 +36,7 @@ function eventsHandler(req, res, next) {
     };
 
     clients.push(newClient);
-    
+
     req.on('close', () => {
         console.log(`${clientId} Connection closed`);
         clients = clients.filter(client => client.id !== clientId);
@@ -61,7 +61,6 @@ async function addColor(req, res, next) {
 }
 
 app.post('/color', addColor);
-
 app.get('/stream', eventsHandler); 
 
 // Serve static files

@@ -10,11 +10,17 @@ function App() {
     useEffect( () =>{
         if (!listening) {
             let events
-            if (process.env.PORT) {
-                events = new EventSource('https://sci-fair-scum.herokuapp.com/stream'); //try this out for heroku deploy
+            events = new EventSource('https://sci-fair-scum.herokuapp.com/stream'); //try this out for heroku deploy
+            if(process.env.PORT) {
+                console.log(process.env.PORT)
             } else {
-                events = new EventSource('http://localhost:5000/stream'); //for local deploy. does process.env.PORT work here?
+                console.log('no process.')
             }
+            // if (process.env.PORT) {
+            //     events = new EventSource('https://sci-fair-scum.herokuapp.com/stream'); //try this out for heroku deploy
+            // } else {
+            //     events = new EventSource('http://localhost:5000/stream'); //for local deploy. does process.env.PORT work here?
+            // }
 
             events.onmessage = (event) => {
                 const parsedData = JSON.parse(event.data);
