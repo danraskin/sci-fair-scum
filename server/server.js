@@ -63,7 +63,7 @@ async function addColor(req, res, next) {
 }
 
 const corsOptions = {
-    origin: 'https://git.heroku.com/sci-fair-scum',
+    origin: '/',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
