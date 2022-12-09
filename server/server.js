@@ -1,89 +1,27 @@
 const express = require('express');
+// require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
 
+const sourceRouter = require('./routes/source.router.js');
 const colorRouter = require('./routes/color.router.js');
+const streamRouter = require('./routes/stream.router.js');
+const stream = streamRouter.router;
 
-// CORS tutorial
-app.use(cors());
+app.use(cors()); // allows cross-origin request sharing from all sources. see cors api for more uses.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+app.use('/color', colorRouter); // this route recieves POST from remote source (IoT microcontroller) and routes color data to client
+app.use('/stream', stream); //this route prepare client to receive SSE stream
+app.use('/source', sourceRouter); //this is a dev route. sends heroku env variables to client
 
-//initialize server? i don''t know what this does
+// checks networked connections.
 app.get('/status', (req, res) => {
     res.json({clients: clients.length})
 });
-
-// middleware for GET requests to the /stream endpoint.
-
-function eventsHandler(req, res, next) {
-    const headers = {
-        'Content-Type': 'text/event-stream',
-        'Connection': 'keep-alive',
-        'Cache-Control': 'no-cache'
-    }
-    res.writeHead(200, headers);
-
-    const data = `data: ${JSON.stringify(colors)}\n\n`;
-
-    res.write(data);
-
-    const clientId = Date.now();
-
-    const newClient = {
-        id: clientId,
-        res
-    };
-
-    clients.push(newClient);
-
-    req.on('close', () => {
-        console.log(`${clientId} Connection closed`);
-        clients = clients.filter(client => client.id !== clientId);
-    });
-}
-
-// middleware for POST requests to /color endpoint.
-
-function sendEventsToAll(newColor) {
-    clients.forEach(client => client.res.write(
-        `data: ${JSON.stringify(newColor)}\n\n`
-    ));
-}
-
-async function addColor(req, res, next) {
-    const newColor = req.body;
-    console.log(req.body);
-    // colors.push(newColor);
-    res.json(newColor);
-    return sendEventsToAll(newColor);
-}
-
-const corsOptions = {
-    origin: '/',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
-
-app.post('/color', addColor);
-// app.use('/color', colorRouter);
-
-app.get('/stream', cors(corsOptions), eventsHandler); 
-// youtube tutorial >>>>>>
-    // app.get("/", (req, res) => res.send("hello!"));
-
-    // app.get("/stream", (req,res) => {
-    //     res.setHeader("Content-Type", "text/event-stream");
-    //     send(res);
-    // })
-
-    // let i = 0;
-    // function send (res) {
-    //     res.write("data: " + `hello!${i++}\n\n`);
-    //     setTimeout(()=>send(res), 1000);
-    // }
 
 // Serve static files
 app.use(express.static('build'));
@@ -91,10 +29,7 @@ app.use(express.static('build'));
 // App Set //
 const PORT = process.env.PORT || 5000;
 
-let clients = [];
-let colors = [];
-
 /** Listen * */
 app.listen(PORT, () => {
-  console.log(`Listening on port: ${PORT}`);
+  console.log(`Listening on CORS-enabled server port: ${PORT}`);
 });
