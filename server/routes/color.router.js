@@ -1,19 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const { getClients } = require('./stream.router.js');
 
+// middleware for POST to /color endpoint.
+// imports 'clients' from stream.router.js and forwards posted data
+// to clients.
 
-function sendEventsToAll(newFact) {
-    clients.forEach(client => client.res.write(
-        `data: ${JSON.stringify(newFact)}\n\n`
-    ));
-}
+router.post('/', async ( req, res ) => {
+    const newColor = req.body;
+    // console.log(req.body);
+    res.json(newColor);
+    getClients().forEach(client => client.res.write(
+        `data: ${JSON.stringify(newColor)}\n\n`
+    )); //response to client must be in this format for SSE
+}); 
 
-
-router.post('/', async (req, res) => {
-    console.log('in color.router')
-    // const newFact = req.body;
-    // colors.push(newFact);
-    // res.json(newFact);
-    // return sendEventsToAll(newFact);
-
-})
+module.exports = router;
