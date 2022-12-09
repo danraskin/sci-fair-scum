@@ -6,7 +6,7 @@ function App() {
 
     const [ listening, setListening ] = useState(false);
     const [ randomColor, setColor ] = useState([0,0,0]);
-    const [ streamSource, setStream ] = useState('http://localhost:5000/stream');
+    // const [ streamSource, setStream ] = useState('');
 
     // gets stream source URL. this is dev code to simplify local/heroku testing.
     async function getSource() {
@@ -14,7 +14,18 @@ function App() {
             const response = await axios.get('/source');
             console.log ('in getSource');
             console.log(response.data);
-            setStream(response.data);
+            // setStream(response.data);
+
+            const events = new EventSource(response.data);
+
+            events.onmessage = (event) => {
+                const parsedData = JSON.parse(event.data);
+                console.log('in useEffect:', parsedData);
+                setColor(parsedData);
+            }
+
+
+            // console.log('in getSource, check useState?', streamSource);
         } catch (err) {
             console.log ('error', err);
         }
@@ -23,17 +34,18 @@ function App() {
     useEffect( () =>{
         if (!listening) {
             getSource();
-            const events = new EventSource(streamSource);
+            
+            // const events = new EventSource(streamSource);
 
-            events.onmessage = (event) => {
-                const parsedData = JSON.parse(event.data);
-                console.log('in useEffect:', parsedData);
-                setColor(parsedData);
-            }
+            // events.onmessage = (event) => {
+            //     const parsedData = JSON.parse(event.data);
+            //     console.log('in useEffect:', parsedData);
+            //     setColor(parsedData);
+            // }
             setListening(true);
         }
         __().sine().delay().dac(.05);
-    }, [listening, randomColor, streamSource]);
+    }, [listening, randomColor]);
 
     return(
         <>
