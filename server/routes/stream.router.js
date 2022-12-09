@@ -8,8 +8,7 @@ const router = express.Router();
 
 let clients = [];
 
-router.get('/', ( req, res ) => {
-    // console.log(req);
+router.get('/', async ( req, res ) => {
     const headers = {
         'Content-Type': 'text/event-stream',
         'Connection': 'keep-alive',
@@ -23,20 +22,14 @@ router.get('/', ( req, res ) => {
         res
     };
     clients.push(newClient); // stores new client to client list
-
-    // console.log(req);
-    clients.forEach(client => console.log(client.id));
-
-
-    // req.on('close', () => {
-    //     console.log(clients);
-    //     console.log(`${clientId} Connection closed`);
-    //     clients = clients.filter(client => client.id !== clientId);
-    //     console.log('post filter', clients);
-    // });
+    // clients.forEach(client => console.log('current client: ', client.id));
+    req.on('close', () => {
+        console.log(`${clientId} Connection closed`);
+        clients = clients.filter(client => client.id !== clientId);
+    });
 })
 
 module.exports = {
     router,
-    clients
-}
+    getClients: ()=>{ return clients}
+} // exporting a function that RETURNS clients is a solution to passing dynamic values across modules.

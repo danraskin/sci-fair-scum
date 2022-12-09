@@ -6,46 +6,27 @@ function App() {
 
     const [ listening, setListening ] = useState(false);
     const [ randomColor, setColor ] = useState([0,0,0]);
-    // const [ streamSource, setStream ] = useState('');
 
-    // gets stream source URL. this is dev code to simplify local/heroku testing.
     async function getSource() {
         try {
-            const response = await axios.get('/source');
-            console.log ('in getSource');
-            console.log(response.data);
-            // setStream(response.data);
-
-            const events = new EventSource(response.data);
-
+            const response = await axios.get('/source'); // gets stream source URL. this is dev code to simplify local/heroku testing.
+            const events = new EventSource(response.data); // establishes link with EventSource url to receive SSE. don't konw why this needs full URL rather than just '/source'. different method than axios?
             events.onmessage = (event) => {
                 const parsedData = JSON.parse(event.data);
-                console.log('in useEffect:', parsedData);
                 setColor(parsedData);
-            }
-
-
-            // console.log('in getSource, check useState?', streamSource);
+            } // sets react state at every event
         } catch (err) {
             console.log ('error', err);
         }
     }
-
+    
     useEffect( () =>{
         if (!listening) {
             getSource();
-            
-            // const events = new EventSource(streamSource);
-
-            // events.onmessage = (event) => {
-            //     const parsedData = JSON.parse(event.data);
-            //     console.log('in useEffect:', parsedData);
-            //     setColor(parsedData);
-            // }
             setListening(true);
         }
         __().sine().delay().dac(.05);
-    }, [listening, randomColor]);
+    },[randomColor]);
 
     return(
         <>
