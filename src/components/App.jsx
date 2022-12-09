@@ -9,7 +9,8 @@ function App() {
 
     useEffect( () =>{
         if (!listening) {
-            const streamSource = process.env.STREAMSOURCE || 'http://localhost:5000/stream'
+            console.log(process.env);
+            const streamSource = process.env.STREAMSOURCE || 'http://localhost:5000/stream';
             const events = new EventSource(streamSource);
 
             events.onmessage = (event) => {
