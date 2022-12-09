@@ -5,12 +5,12 @@ import './App.css';
 function App() {
 
     const [ listening, setListening ] = useState(false);
-    const [randomColor, setColor] = useState([0,0,0]);    
+    const [randomColor, setColor] = useState([0,0,0]);
+    const streamSource = process.env.STREAMSOURCE || 'http://localhost:5000/stream';    
 
     useEffect( () =>{
         if (!listening) {
             console.log(process.env);
-            const streamSource = process.env.STREAMSOURCE || 'http://localhost:5000/stream';
             const events = new EventSource(streamSource);
 
             events.onmessage = (event) => {
