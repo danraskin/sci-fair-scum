@@ -1,16 +1,17 @@
 import {useEffect, useState} from 'react';
+require('dotenv').config();
 import './App.css';
 
 
 function App() {
 
     const [ listening, setListening ] = useState(false);
-    const [randomColor, setColor] = useState([0,0,0]);
+    const [ randomColor, setColor ] = useState([0,0,0]);
     const streamSource = process.env.STREAMSOURCE || 'http://localhost:5000/stream';    
+    console.log("process.env, ", process.env);
 
     useEffect( () =>{
         if (!listening) {
-            console.log(process.env);
             const events = new EventSource(streamSource);
 
             events.onmessage = (event) => {
