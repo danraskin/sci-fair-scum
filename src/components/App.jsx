@@ -1,17 +1,28 @@
 import {useEffect, useState} from 'react';
-require('dotenv').config();
+import axios from 'axios';
 import './App.css';
-
 
 function App() {
 
     const [ listening, setListening ] = useState(false);
     const [ randomColor, setColor ] = useState([0,0,0]);
-    const streamSource = process.env.STREAMSOURCE || 'http://localhost:5000/stream';    
-    console.log("process.env, ", process.env);
+    const [ streamSource, setStream ] = useState('http://localhost:5000/stream');
+
+    // gets stream source URL. this is dev code to simplify local/heroku testing.
+    async function getSource() {
+        try {
+            const response = await axios.get('/source');
+            console.log ('in getSource');
+            console.log(response.data);
+            setStream(response.data);
+        } catch (err) {
+            console.log ('error', err);
+        }
+    }
 
     useEffect( () =>{
         if (!listening) {
+            getSource();
             const events = new EventSource(streamSource);
 
             events.onmessage = (event) => {
@@ -22,7 +33,7 @@ function App() {
             setListening(true);
         }
         __().sine().delay().dac(.05);
-    }, [listening, randomColor]);
+    }, [listening, randomColor, streamSource]);
 
     return(
         <>
