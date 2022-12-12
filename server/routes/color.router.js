@@ -7,8 +7,14 @@ const { getClients } = require('./stream.router.js');
 // to clients.
 
 router.post('/', async ( req, res ) => {
-    const newColor = req.body;
+    const newColor = [
+        Number(req.body.r),
+        Number(req.body.g),
+        Number(req.body.b)
+    ];
+    // const newColor = req.body; // if testing from colorsource.js or other node script.
     // console.log(req.body);
+    console.log(newColor);
     res.json(newColor);
     getClients().forEach(client => client.res.write(
         `data: ${JSON.stringify(newColor)}\n\n`
