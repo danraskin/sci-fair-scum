@@ -10,6 +10,7 @@ router.post('/', async ( req, res ) => {
     const newColor = req.body; // if testing from colorsource.js or other node script.
     // console.log(newColor);
     res.json(newColor);
+    // res.send(201);
     getClients().forEach(client => client.res.write(
         `data: ${JSON.stringify(newColor)}\n\n`
     )); //response to client must be in this format for SSE
