@@ -1,5 +1,4 @@
 import requests
-import array as arr
 import board
 import adafruit_tcs34725
 
