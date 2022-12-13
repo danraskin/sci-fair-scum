@@ -11,7 +11,6 @@ function PatchGrid() {
                     key={i}
                     className={`ctrl-${i}`}
                     style={{
-                        backgroundColor: "red",
                         gridArea: `ctrl-${i}`
                     }}
                 />

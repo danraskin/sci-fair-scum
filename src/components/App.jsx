@@ -36,7 +36,7 @@ function App() {
                 randomColor && <div
                     className="newColor"
                     style={{
-                        backgroundColor: `rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`
+                        backgroundColor: `rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`,
                     }}
                 ></div>
             }
