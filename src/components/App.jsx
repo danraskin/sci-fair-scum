@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import './App.css';
 
+import PatchGrid from './PatchGrid'
+
 function App() {
 
     const [ listening, setListening ] = useState(false);
@@ -9,8 +11,8 @@ function App() {
 
     async function getSource() {
         try {
-            const response = await axios.get('/source'); // gets stream source URL. this is dev code to simplify local/heroku testing.
-            const events = new EventSource(response.data); // establishes link with EventSource url to receive SSE. don't konw why this needs full URL rather than just '/source'. different method than axios?
+            const streamSource = await axios.get('/source'); // gets stream source URL. this is dev code to simplify local/heroku testing.
+            const events = new EventSource(streamSource.data); // establishes link with EventSource url to receive SSE. don't konw why this needs full URL rather than just '/source'. different method than axios?
             events.onmessage = (event) => {
                 const parsedData = JSON.parse(event.data);
                 setColor(parsedData);
@@ -29,7 +31,7 @@ function App() {
     },[randomColor]);
 
     return(
-        <>
+        <div className="container">
             {
                 randomColor && <div
                     className="newColor"
@@ -38,18 +40,9 @@ function App() {
                     }}
                 ></div>
             }
-            {/* <button onClick={e=>newColor()}>new color</button> */}
-
-            {/* <div>
-                {
-                    facts.map((fact, i) => (
-                        <ul key={i}>
-                            <li>{fact.info}: {fact.source}</li>
-                        </ul>
-                    ))
-                }
-            </div> */}
-        </>
+            
+            <PatchGrid />
+        </div>
     )
 }
 
