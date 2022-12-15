@@ -8,6 +8,8 @@ function App() {
 
     const [ listening, setListening ] = useState(false);
     const [ randomColor, setColor ] = useState([0,0,0]);
+    const [ colorPicker, setColorPicker ] = useState([0,0,0]);
+    const [ colorIsSelected, setColorIsSelected] = useState(false);
 
     async function getSource() {
         try {
@@ -30,6 +32,12 @@ function App() {
         __().sine().delay().dac(.05);
     },[randomColor]);
 
+
+    function selectAColor(rgbArray) {
+        setColorPicker(rgbArray);
+        setColorIsSelected(!colorIsSelected);
+    }
+
     return(
         <div className="container">
             {
@@ -38,7 +46,19 @@ function App() {
                     style={{
                         backgroundColor: `rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`,
                     }}
-                ></div>
+                >
+                    <div id="color-picker" className={`color-selected-${colorIsSelected}`} style={{ backgroundColor: `rgba(${colorPicker[0]},${colorPicker[1]},${colorPicker[2]},${Number(colorIsSelected)})`}}>
+                        {
+                            colorIsSelected==false ?
+
+                                <button onClick={() => selectAColor(randomColor)}>select this color</button>
+
+                                :
+
+                                <button onClick={() => selectAColor([0,0,0])}>clear selection</button>
+                        }
+                    </div>
+                </div>
             }
             
             <PatchGrid />
