@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import Patch from './Patch';
 import './App.css';
 
-function PatchGrid({ patch, randomColor }) {
+function PatchGrid({ freq, patch, randomColor, playing, setPlaying }) {
     const fill = 'rgb(100,10,130)';
     // const fill = `rgb(${patch.col[0]},${patch.col[1]},${patch.col[2]})`;
     const square = patch.num;
@@ -16,6 +16,9 @@ function PatchGrid({ patch, randomColor }) {
                     i = { i }
                     fill = { fill } 
                     randomColor = { randomColor }
+                    playing = { playing }
+                    setPlaying = { setPlaying }
+                    freq = { freq }
                 />
             ))}   
         </div>

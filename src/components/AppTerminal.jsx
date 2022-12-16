@@ -7,17 +7,19 @@ import PatchGrid from './PatchGrid';
 
 function AppTerminal() {
     const [ listening, setListening ] = useState(false);
-    const [ randomColor, setColor ] = useState([0,0,0]);
+    const [ randomColor, setColor ] = useState([0,0,0,0]);
     const [ patch, setPatch ] = useState({col: randomColor, num: 2});
     const [ playing, setPlaying ] = useState(false);
+    const [ freq, setFreq ] = useState(120);
     
     useEffect( () =>{
         if (!listening) {
             getSource();
             setListening(true);
         }
-        __().sine().gain(.1).dac();
-        console.log( __().sine().gain(.1).dac())
+        setFreq(randomColor[0]+120);
+        __().sine({id: "osc1", frequency: freq}).gain(.2).dac();
+
     },[randomColor]);    
 
     async function getSource() {
@@ -42,16 +44,15 @@ function AppTerminal() {
     }
 
     const setPlay = () => {
-        if ( !playing ) {
-            setPlaying(true);
-            __("sine").start()
-            console.log("playing now");
-        } else {
-            setPlaying(false);
-            __("gain").ramp(0,1,"gain",.1);
-            setTimeout(()=>{
-                __("sine").stop();
-            },1000);
+        if ( playing ) {
+            __("gain").ramp(0,.5,"gain",.2);
+
+            setTimeout( ()=>{
+                __("#osc1").stop();
+                __("gain").attr({"gain":.2});
+                setPlaying(false);
+            },500);
+            
             console.log("stopped playing");
         }
     }
@@ -67,10 +68,13 @@ function AppTerminal() {
                     }}
                 ></div>
             }
-        <button onClick={e=>setPlay()}>Set</button>
+        <button onClick={e=>setPlay()}>M U T E</button>
         <PatchGrid
             patch = { patch }
             randomColor = { randomColor}
+            playing = { playing }
+            setPlaying = { setPlaying }
+            freq = { freq }
         />
     </div>
     )
