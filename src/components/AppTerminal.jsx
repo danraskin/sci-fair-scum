@@ -17,7 +17,7 @@ function AppTerminal() {
             setListening(true);
         }
         __().sine().gain(.1).dac();
-        console.log( __().sine().gain(.1).dac())
+        // console.log( __().sine().gain(.1).dac())
     },[randomColor]);    
 
     async function getSource() {
