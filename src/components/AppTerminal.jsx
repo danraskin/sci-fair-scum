@@ -9,6 +9,16 @@ function AppTerminal() {
     const [ listening, setListening ] = useState(false);
     const [ randomColor, setColor ] = useState([0,0,0]);
     const [ patch, setPatch ] = useState({col: randomColor, num: 2});
+    const [ playing, setPlaying ] = useState(false);
+    
+    useEffect( () =>{
+        if (!listening) {
+            getSource();
+            setListening(true);
+        }
+        __().sine().gain(.1).dac();
+        console.log( __().sine().gain(.1).dac())
+    },[randomColor]);    
 
     async function getSource() {
         try {
@@ -22,14 +32,6 @@ function AppTerminal() {
             console.log ('error', err);
         }
     }
-    
-    useEffect( () =>{
-        if (!listening) {
-            getSource();
-            setListening(true);
-        }
-        __().sine().delay().dac(.05);
-    },[randomColor]);    
 
     const savePatch = ()=> {
         setPatch({
@@ -38,6 +40,22 @@ function AppTerminal() {
         })
         // console.log(patch.col, patch.num);
     }
+
+    const setPlay = () => {
+        if ( !playing ) {
+            setPlaying(true);
+            __("sine").start()
+            console.log("playing now");
+        } else {
+            setPlaying(false);
+            __("gain").ramp(0,1,"gain",.1);
+            setTimeout(()=>{
+                __("sine").stop();
+            },1000);
+            console.log("stopped playing");
+        }
+    }
+
 
     return (
         <div className="container">
@@ -49,7 +67,7 @@ function AppTerminal() {
                     }}
                 ></div>
             }
-        <button onClick={e=>savePatch()}>Set</button>
+        <button onClick={e=>setPlay()}>Set</button>
         <PatchGrid
             patch = { patch }
             randomColor = { randomColor}
