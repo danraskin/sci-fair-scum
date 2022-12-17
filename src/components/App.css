@@ -8,6 +8,9 @@
         "head"
         "patch-grid";
     gap: 10px;
+    background-image: url("https://thekitchen.org/system/images/BAhbB1sHOgZmSSIqMjAxOC8wNC8yNS8xMl8yNV8xOF84MTVfWmV2X2V2ZW50LmpwZwY6BkVUWwg6BnA6CnRodW1iSSINOTQweDM3MCMGOwZU/Zev_event.jpg");
+    background-size: contain;
+    margin: 0;
 }
 
 .newColor {

@@ -18,7 +18,58 @@ function AppTerminal() {
             setListening(true);
         }
         setFreq(randomColor[0]+120);
-        __().sine({id: "osc1", frequency: freq}).gain(.2).dac();
+
+        __().reverb().dac();
+
+        //set oscilattors
+        __().sine({
+                class: "osc",
+                id: "osc1",
+                // frequency: freq
+            }).gain({
+                id: "gain1",
+                gain:.2
+            }).connect("dac");
+
+        __().sine({
+            class: "osc, subosc",
+            id: "subosc1",
+        }).gain({
+            id: "subgain1",
+            gain:.1
+        }).connect("reverb");
+
+        __().square({
+                class: "osc",
+                id: "osc2",
+            }).gain({
+                id: "gain2",
+                gain:.02
+            }).connect("dac");
+
+        __().square({
+                class: "osc, subosc",
+                id: "subosc2",
+            }).gain({
+                id: "gain2",
+                gain:.01
+            }).connect("reverb");
+        
+        __().triangle({
+                class: "osc",
+                id: "osc3",
+            }).gain({
+                id: "gain3",
+                gain:.1
+            }).connect("dac");
+
+        __().triangle({
+            class: "osc, subosc",
+            id: "subosc3",
+        }).gain({
+            id: "gain3",
+            gain:.05
+        }).connect("reverb");
 
     },[randomColor]);    
 
@@ -44,14 +95,29 @@ function AppTerminal() {
     }
 
     const setPlay = () => {
+
         if ( playing ) {
-            __("gain").ramp(0,.5,"gain",.2);
+
+            __("#gain1").ramp(0,.25,"gain",.2);
+            __("#gain2").ramp(0,.25,"gain",.02);
+            __("#gain3").ramp(0,.25,"gain",.1);
+
+            __("#subgain1").ramp(0,.25,"gain",.1);
+            __("#subgain2").ramp(0,.25,"gain",.01);
+            __("#subgain3").ramp(0,.25,"gain",.05);
 
             setTimeout( ()=>{
-                __("#osc1").stop();
-                __("gain").attr({"gain":.2});
+                __("*").stop();
+                __( "#gain1" ).attr({"gain":.2});
+                __( "#gain2" ).attr({"gain":.02});
+                __( "#gain3" ).attr({"gain":.1});
+
+                __("#subgain1").attr({"gain":.1});
+                __("#subgain2").attr({"gain":.01});
+                __("#subgain3").attr({"gain":.05});
+
                 setPlaying(false);
-            },500);
+            },300);
             
             console.log("stopped playing");
         }
