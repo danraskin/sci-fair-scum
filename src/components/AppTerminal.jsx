@@ -19,57 +19,42 @@ function AppTerminal() {
         }
         setFreq(randomColor[0]+120);
 
+        //output stub
         __().reverb().dac();
 
-        //set oscilattors
-        __().sine({
-                class: "osc",
-                id: "osc1",
-                // frequency: freq
-            }).gain({
-                id: "gain1",
-                gain:.2
-            }).connect("dac");
+        //SET OSCILLATORS
+        // OSC1
+        __().sine({ class: "osc", id: "osc1" })
+            .gain({ id: "gain1", gain:.15 })
+            .connect("dac");
+        //SUBOSC1
+        __().sine({ class: "osc, subosc", id: "subosc1" })
+            .gain({ class: "subgain", gain:.15 })
+            .connect("reverb");
+        //OSC2
+        __().sine({ class: "osc", id: "osc2" })
+            .gain({ class: "gain", gain:.15 })
+            .connect("dac");
+        //SUBOSC2
+        __().sine({ class: "osc, subosc", id: "subosc2" })
+            .gain({ class: "subgain", gain:.15 })
+            .connect("reverb");
+        //OSC3
+        __().sine({ class: "osc", id: "osc3" })
+            .gain({ class: "gain", gain:.15 })
+            .connect("dac");
+        //SUBOSC3
+        __().sine({ class: "osc, subosc", id: "subosc3"})
+            .gain({ class: "subgain", gain:.15 })
+            .connect("reverb");
 
-        __().sine({
-            class: "osc, subosc",
-            id: "subosc1",
-        }).gain({
-            id: "subgain1",
-            gain:.1
-        }).connect("reverb");
+        // SET LFO
 
-        __().square({
-                class: "osc",
-                id: "osc2",
-            }).gain({
-                id: "gain2",
-                gain:.02
-            }).connect("dac");
+        __().lfo({id:"sublfo1", modulates:"frequency"})
+            .connect("#osc1");
+        __().lfo({id:"lfo2", modulates:"frequency"})
+            .connect("#subosc2");
 
-        __().square({
-                class: "osc, subosc",
-                id: "subosc2",
-            }).gain({
-                id: "gain2",
-                gain:.01
-            }).connect("reverb");
-        
-        __().triangle({
-                class: "osc",
-                id: "osc3",
-            }).gain({
-                id: "gain3",
-                gain:.1
-            }).connect("dac");
-
-        __().triangle({
-            class: "osc, subosc",
-            id: "subosc3",
-        }).gain({
-            id: "gain3",
-            gain:.05
-        }).connect("reverb");
 
     },[randomColor]);    
 
@@ -98,23 +83,14 @@ function AppTerminal() {
 
         if ( playing ) {
 
-            __("#gain1").ramp(0,.25,"gain",.2);
-            __("#gain2").ramp(0,.25,"gain",.02);
-            __("#gain3").ramp(0,.25,"gain",.1);
+            __(".gain").ramp(0,.25,"gain",.15);
+            __(".subgain").ramp(0,.25,"gain",.15);
 
-            __("#subgain1").ramp(0,.25,"gain",.1);
-            __("#subgain2").ramp(0,.25,"gain",.01);
-            __("#subgain3").ramp(0,.25,"gain",.05);
 
             setTimeout( ()=>{
                 __("*").stop();
-                __( "#gain1" ).attr({"gain":.2});
-                __( "#gain2" ).attr({"gain":.02});
-                __( "#gain3" ).attr({"gain":.1});
-
-                __("#subgain1").attr({"gain":.1});
-                __("#subgain2").attr({"gain":.01});
-                __("#subgain3").attr({"gain":.05});
+                __( "gain" ).attr({"gain":.15});
+                __(".subgain").attr({"gain":.15});
 
                 setPlaying(false);
             },300);
