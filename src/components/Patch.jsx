@@ -2,33 +2,26 @@ import { useState, useEffect } from 'react';
 
 function Patch({ freq, i, randomColor, playing, setPlaying }) {
     const [ fill, setFill ] = useState(`rgb(0,0,0,0)`);
+    const [ hasFill, setHasFill ] = useState(false);
     let lfoFreq ;
 
     useEffect( ()=> {
         console.log('in useEffect');
     },[fill]);
 
+    // OLD ONE NO SOUND
     // const setFillCol = ()=> {
     //     console.log(randomColor);
     //     setFill(`rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`);
     // }
 
-    // const fillOrReset =(e)=> {
-        // e.detail is number of clicks it senses, so a double click would be '2'
-    //    switch (e.detail) {
-     //       case 2:
-     //           // if double click, reset to light gray
-     //           setFill(`rgb(240,240,240)`);
-     //           break;
-     //       case 1:
-     //           // if single click (or first half of double click, idk how to avoid)
-     //           // then set to values from color source which are provided w props
-     //           setFill(`rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`);
-     //           break;
+    const reset =()=> {
+        console.log("in reset")
+        setFill(`rgba(240,240,240,0)`);
+        // all the sound stuff
+        setHasFill(false);
+    }
 
-
-    
-    
 
     const setFillCol = ()=> {
         setFill(`rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`);
@@ -85,20 +78,21 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
             //     // __("#lpf3, #lfo_lpf3").start();
             //     break;
         }
+        setHasFill(true);
     }
 
     return(
-        <div
-
-            className={`ctrl-${i}`}
-            style={{
+        <div className={`ctrl-${i}`}>
+            <button className='colorFillButton' onClick={e => setFillCol()} style={{
                 backgroundColor: fill,
                 border: '2px solid black',
                 gridArea: `ctrl-${i}`
-            }}
-            // onClick={e=>setFillCol()}
-            onClick={e => fillOrReset(e)}
-        />
+            }}></button>
+            {
+                hasFill &&
+                <button className='closeButton' onClick={e => reset()}>reset</button>
+            }
+        </div>
     )
 }
 
