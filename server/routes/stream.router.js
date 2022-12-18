@@ -31,5 +31,5 @@ router.get('/', async ( req, res ) => {
 
 module.exports = {
     router,
-    getClients: ()=>{ return clients}
+    getClients: ()=>{ return clients }
 } // exporting a function that RETURNS clients is a solution to passing dynamic values across modules.
