@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 
 function Patch({ freq, i, randomColor, playing, setPlaying }) {
     const [ fill, setFill ] = useState(`rgb(0,0,0,0)`);
-    // const [ clickCount, setClickCount ] = useState(1);
-    // const [ thisClick, setThisClick ] = useState('');
-    // const [ lastClick, setLastClick ] = useState('')
+
+    const [ hasFill, setHasFill ] = useState(false);
 
     let lfoFreq ;
     let lpfFreq ;
@@ -14,27 +13,17 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
         console.log('in useEffect');
     },[fill]);
 
+    // OLD ONE NO SOUND
     // const setFillCol = ()=> {
     //     console.log(randomColor);
     //     setFill(`rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`);
     // }
 
     const reset =()=> {
-        // if (clickCount === 1) {
-        //     setThisClick(d.getTime());
-        //     console.log('this click', thisClick, 'count', clickCount);
-        //     setClickCount(2);
-        // } else if (clickCount === 2) {
-        //     setLastClick(d.getTime());
-        //     console.log('lastclick',lastClick);
-        //     console.log(`${thisClick-lastClick}`);
-        //     setClickCount(1)
-        // }
 
-    //    switch (lastClick - thisClick < 1000) {
-    //        case true :
-    //            // if double click, reset to light gray
         setFill(`rgb(240,240,240,0)`);
+        setHasFill(false);
+       
         switch (i) {
         // OSC ROW
         case 1:
@@ -121,23 +110,21 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
             //     // __("#lpf3, #lfo_lpf3").start();
             //     break;
         }
+        setHasFill(true);
     }
 
     return(
-        <>
-            <div
-                className={`ctrl-${i}`}
-                style={{
-                    backgroundColor: fill,
-                    border: '2px solid black',
-                    gridArea: `ctrl-${i}`
-                }}
-                // onClick={e=>setFillCol()}
-                onClick={e => setFillCol()}
-            >
-            </div>
-            <button className="closeButton" onClick={e => reset()}>X</button>
-        </>
+        <div className={`ctrl-${i}`}>
+            <button className='colorFillButton' onClick={e => setFillCol()} style={{
+                backgroundColor: fill,
+                border: '2px solid black',
+                gridArea: `ctrl-${i}`
+            }}></button>
+            {
+                hasFill &&
+                <button className='closeButton' onClick={e => reset()}>reset</button>
+            }
+        </div>
     )
 }
 
