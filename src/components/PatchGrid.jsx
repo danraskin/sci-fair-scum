@@ -5,7 +5,7 @@ import './App.css';
 function PatchGrid({ freq, patch, randomColor, playing, setPlaying }) {
     const fill = 'rgb(100,10,130)';
     // const fill = `rgb(${patch.col[0]},${patch.col[1]},${patch.col[2]})`;
-    const square = patch.num;
+    // const square = patch.num;
 
     const grid=[1,2,3,4,5,6,7,8,9];
     return (
@@ -14,7 +14,7 @@ function PatchGrid({ freq, patch, randomColor, playing, setPlaying }) {
                 <Patch
                     key = { i }
                     i = { i }
-                    fill = { fill } 
+                    // fill = { fill } 
                     randomColor = { randomColor }
                     playing = { playing }
                     setPlaying = { setPlaying }

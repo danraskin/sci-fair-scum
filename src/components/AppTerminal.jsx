@@ -17,6 +17,7 @@ function AppTerminal() {
             getSource();
             setListening(true);
         }
+        
         setFreq(randomColor[0]+120);
 
         //output stub
