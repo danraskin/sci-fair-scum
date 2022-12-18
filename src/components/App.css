@@ -1,5 +1,71 @@
+.container {
+    display: grid;
+    grid-template-rows:
+        [head-start] 1fr
+        [grid-start] 2fr
+        [grid-end];    
+    grid-template-areas:
+        "head"
+        "patch-grid";
+    gap: 10px;
+    background-image: url("https://thekitchen.org/system/images/BAhbB1sHOgZmSSIqMjAxOC8wNC8yNS8xMl8yNV8xOF84MTVfWmV2X2V2ZW50LmpwZwY6BkVUWwg6BnA6CnRodW1iSSINOTQweDM3MCMGOwZU/Zev_event.jpg");
+    background-size: contain;
+    margin: 0;
+}
+
 .newColor {
+    grid-area: head;
+    place-self: stretch;
     border: 2px solid black;
-    height:300px;
-    width: 300px;
+    height: 30vh;
+}
+
+.patchGrid {
+    display: grid;
+    grid-area: patch-grid;
+    grid-template-rows:
+        [ctrl-r1] 1fr
+        [ctrl-r2] 1fr
+        [ctrl-r3] 1fr
+        [ctrl-r-end];
+    grid-template-columns:
+        [ctrl-c1] 1fr
+        [ctrl-c2] 1fr
+        [ctrl-c3] 1fr
+        [ctrl-c-end];
+    grid-template-areas:
+        "ctrl-1 ctrl-2 ctrl-3"
+        "ctrl-4 ctrl-5 ctrl-6"
+        "ctrl-7 ctrl-8 ctrl-9";
+    place-content: stretch;
+    gap: 10px;
+}
+
+/* give position to first div inside patchGrid so buttons within can be positioned */
+.patchGrid > div {
+    position: relative;
+}
+
+.colorFillButton {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0;
+    border: none;
+    z-index: 2;
+}
+
+.closeButton {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgba(255, 255, 255, .2);
+    font-family: monospace;
+    font-size: 1em;
+    padding: .8em;
+    border: none;
 }
