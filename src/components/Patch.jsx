@@ -2,9 +2,13 @@ import { useState, useEffect } from 'react';
 
 function Patch({ freq, i, randomColor, playing, setPlaying }) {
     const [ fill, setFill ] = useState(`rgb(0,0,0,0)`);
-    const [ hasFill, setHasFill ] = useState(false);
-    let lfoFreq ;
 
+    const [ hasFill, setHasFill ] = useState(false);
+
+    let lfoFreq ;
+    let lpfFreq ;
+
+    // const d = new Date();
     useEffect( ()=> {
         console.log('in useEffect');
     },[fill]);
@@ -16,11 +20,37 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
     // }
 
     const reset =()=> {
-        console.log("in reset")
-        setFill(`rgba(240,240,240,0)`);
-        // all the sound stuff
+
+        setFill(`rgb(240,240,240,0)`);
         setHasFill(false);
-    }
+       
+        switch (i) {
+        // OSC ROW
+        case 1:
+            __("#osc1").stop();
+            __("#subosc1").stop();
+            break;
+        case 2:
+            __("#osc2").stop();
+            __("#subosc2").stop();
+            break;
+        case 3:
+            __("#osc3").stop();
+            __("#subosc3").stop();
+            break;
+        
+        // LFO row
+        case 4:
+            __("#lfo1").stop();
+            break;
+        case 5:
+            __("#lfo2").stop();
+            break;
+        case 6:
+            __("#lfo3").stop();
+            break;
+            }
+        }
 
 
     const setFillCol = ()=> {
@@ -60,10 +90,12 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
             
             // Last row
             // case 7:
-            //     lfoFreq = randomColor[0] / randomColor [1]
-            //     __("#lpf1").attr({ frequency: 4000 })
-            //     __("#lfo_lpf1").attr({ frequency: 1/4, gain: 400})
-            //     __("#lpf1, #lfo_lpf1").start();
+            //     lfoFreq = randomColor[1] / randomColor [2];
+            //     lpfFreq = Math.min(randomColor);
+            //     console.log(lpfFreq);
+            //     __("#lpf1,#lfo_lpf1").start();
+            //     __("#lpf1").attr({ frequency: 10 })
+            //     __("#lfo_lpf1").attr({ frequency: 20, gain: 3000})
             //     break;
             // case 8:
             //     lfoFreq = randomColor[0] / randomColor [1]
