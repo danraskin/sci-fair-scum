@@ -2,8 +2,14 @@ import { useState, useEffect } from 'react';
 
 function Patch({ freq, i, randomColor, playing, setPlaying }) {
     const [ fill, setFill ] = useState(`rgb(0,0,0,0)`);
-    let lfoFreq ;
+    // const [ clickCount, setClickCount ] = useState(1);
+    // const [ thisClick, setThisClick ] = useState('');
+    // const [ lastClick, setLastClick ] = useState('')
 
+    let lfoFreq ;
+    let lpfFreq ;
+
+    // const d = new Date();
     useEffect( ()=> {
         console.log('in useEffect');
     },[fill]);
@@ -13,22 +19,50 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
     //     setFill(`rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`);
     // }
 
-    // const fillOrReset =(e)=> {
-        // e.detail is number of clicks it senses, so a double click would be '2'
-    //    switch (e.detail) {
-     //       case 2:
-     //           // if double click, reset to light gray
-     //           setFill(`rgb(240,240,240)`);
-     //           break;
-     //       case 1:
-     //           // if single click (or first half of double click, idk how to avoid)
-     //           // then set to values from color source which are provided w props
-     //           setFill(`rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`);
-     //           break;
+    const reset =()=> {
+        // if (clickCount === 1) {
+        //     setThisClick(d.getTime());
+        //     console.log('this click', thisClick, 'count', clickCount);
+        //     setClickCount(2);
+        // } else if (clickCount === 2) {
+        //     setLastClick(d.getTime());
+        //     console.log('lastclick',lastClick);
+        //     console.log(`${thisClick-lastClick}`);
+        //     setClickCount(1)
+        // }
 
+    //    switch (lastClick - thisClick < 1000) {
+    //        case true :
+    //            // if double click, reset to light gray
+        setFill(`rgb(240,240,240,0)`);
+        switch (i) {
+        // OSC ROW
+        case 1:
+            __("#osc1").stop();
+            __("#subosc1").stop();
+            break;
+        case 2:
+            __("#osc2").stop();
+            __("#subosc2").stop();
+            break;
+        case 3:
+            __("#osc3").stop();
+            __("#subosc3").stop();
+            break;
+        
+        // LFO row
+        case 4:
+            __("#lfo1").stop();
+            break;
+        case 5:
+            __("#lfo2").stop();
+            break;
+        case 6:
+            __("#lfo3").stop();
+            break;
+            }
+        }
 
-    
-    
 
     const setFillCol = ()=> {
         setFill(`rgb(${randomColor[0]},${randomColor[1]},${randomColor[2]})`);
@@ -67,10 +101,12 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
             
             // Last row
             // case 7:
-            //     lfoFreq = randomColor[0] / randomColor [1]
-            //     __("#lpf1").attr({ frequency: 4000 })
-            //     __("#lfo_lpf1").attr({ frequency: 1/4, gain: 400})
-            //     __("#lpf1, #lfo_lpf1").start();
+            //     lfoFreq = randomColor[1] / randomColor [2];
+            //     lpfFreq = Math.min(randomColor);
+            //     console.log(lpfFreq);
+            //     __("#lpf1,#lfo_lpf1").start();
+            //     __("#lpf1").attr({ frequency: 10 })
+            //     __("#lfo_lpf1").attr({ frequency: 20, gain: 3000})
             //     break;
             // case 8:
             //     lfoFreq = randomColor[0] / randomColor [1]
@@ -88,17 +124,20 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
     }
 
     return(
-        <div
-
-            className={`ctrl-${i}`}
-            style={{
-                backgroundColor: fill,
-                border: '2px solid black',
-                gridArea: `ctrl-${i}`
-            }}
-            // onClick={e=>setFillCol()}
-            onClick={e => fillOrReset(e)}
-        />
+        <>
+            <div
+                className={`ctrl-${i}`}
+                style={{
+                    backgroundColor: fill,
+                    border: '2px solid black',
+                    gridArea: `ctrl-${i}`
+                }}
+                // onClick={e=>setFillCol()}
+                onClick={e => setFillCol()}
+            >
+            </div>
+            <button className="closeButton" onClick={e => reset()}>X</button>
+        </>
     )
 }
 

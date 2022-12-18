@@ -26,17 +26,18 @@ function AppTerminal() {
         //SET OSCILLATORS
         // OSC1
         __().sine({ class: "osc", id: "osc1" })
-            .gain({ id: "gain1", gain:.2 })
+            .gain({ class: "gain", gain:.2 })
             .connect("compressor");
         //SUBOSC1
-        __().sine({ class: "osc, subosc", id: "subosc1" })
-              .connect("reverb");
+        __().sine({ class: "osc,subosc", id: "subosc1" })
+            .gain({ class: "subgain", gain:.2 })
+            .connect("reverb");
         //OSC2
         __().sine({ class: "osc", id: "osc2" })
             .gain({ class: "gain", gain:.2 })
             .connect("compressor");
         //SUBOSC2
-        __().sine({ class: "osc, subosc", id: "subosc2" })
+        __().sine({ class: "osc,subosc", id: "subosc2" })
             .gain({ class: "subgain", gain:.2 })
             .connect("reverb");
         //OSC3
@@ -44,7 +45,7 @@ function AppTerminal() {
             .gain({ class: "gain", gain:.2 })
             .connect("compressor");
         //SUBOSC3
-        __().sine({ class: "osc, subosc", id: "subosc3"})
+        __().sine({ class: "osc,subosc", id: "subosc3"})
             .gain({ class: "subgain", gain:.2 })
             .connect("reverb");
 
@@ -58,8 +59,8 @@ function AppTerminal() {
             .connect("#subosc3");
 
         // SET LOWPASS
-        // __("#osc1").lowpass({ id: "lpf1 " }).connect("#gain1");
-        // __().lfo({ id: "lfo_lpf1" }).connect("#lpf1");
+        // __("#osc1").lowpass({ id: "lpf1" }).connect(".gain");
+        // __().lfo({ id: "lfo_lpf1", type: "sine" }).connect("#lpf1");
         //__().lfo({ id: "lfo_lpf2" }).connect("#lpf2");
         //__().lfo({ id: "lfo_lpf2" }).connect("#lpf3");
 
