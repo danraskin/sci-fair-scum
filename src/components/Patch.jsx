@@ -36,7 +36,7 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
             // LFO row
             case 4:
                 lfoFreq = randomColor[1] / randomColor [2]
-                __("#lfo1").attr({ frequency:lfoFreq, gain: randomColor[0] }).start();
+                __("#lfo1").attr({ frequency: lfoFreq, gain: randomColor[0] }).start();
                 break;
             case 5:
                 lfoFreq = randomColor[2] / randomColor [0]
@@ -44,17 +44,28 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
                 break;
             case 6:
                 lfoFreq = randomColor[0] / randomColor [1]
-
-                __("#lfo2").attr({ frequency:lfoFreq,gain: randomColor[2] }).start();
+                __("#lfo3").attr({ frequency:lfoFreq,gain: randomColor[2] }).start();
                 break;
             
             // Last row
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9: 
-                break;
+            // case 7:
+            //     lfoFreq = randomColor[0] / randomColor [1]
+            //     __("#lpf1").attr({ frequency: 4000 })
+            //     __("#lfo_lpf1").attr({ frequency: 1/4, gain: 400})
+            //     __("#lpf1, #lfo_lpf1").start();
+            //     break;
+            // case 8:
+            //     lfoFreq = randomColor[0] / randomColor [1]
+
+            //     __("#lpf2").attr({ frequency: 2000 })
+            //     __("#lfo_lpf2").attr({ frequency: 50, gain: 4000})
+            //     __("#lpf2, #lfo_lpf2").start();
+            //     break;
+            // case 9: 
+            //     __("#lpf3").attr({ frequency: 2000 })
+            //     __("#lfo_lpf3").attr({ frequency: 1/4, gain: randomColor[0] + randomColor[1]+randomColor[2]})
+            //     // __("#lpf3, #lfo_lpf3").start();
+            //     break;
         }
     }
 
