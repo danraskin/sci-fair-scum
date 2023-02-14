@@ -27,16 +27,13 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
         switch (i) {
         // OSC ROW
         case 1:
-            __("#osc1").stop();
-            __("#subosc1").stop();
+            __("#osc1,#subosc1,#lfo1").stop();
             break;
         case 2:
-            __("#osc2").stop();
-            __("#subosc2").stop();
+            __("#osc2,#subosc2,#lfo2").stop();
             break;
         case 3:
-            __("#osc3").stop();
-            __("#subosc3").stop();
+            __("#osc3,#subosc3,#lfo3").stop();
             break;
         
         // LFO row
@@ -69,23 +66,23 @@ function Patch({ freq, i, randomColor, playing, setPlaying }) {
                 setPlaying(true);
                 break;
             case 3:
-                __("#osc2").attr({frequency:freq}).start();
-                __("#subosc2").attr({frequency:freq, detune:`${randomColor[1]}`}).start();
+                __("#osc3").attr({frequency:freq}).start();
+                __("#subosc3").attr({frequency:freq, detune:`${randomColor[1]}`}).start();
                 setPlaying(true);
                 break;
             
             // LFO row
-            case 4:
-                lfoFreq = randomColor[1] / randomColor [2]
-                __("#lfo1").attr({ frequency: lfoFreq, gain: randomColor[0] }).start();
+            case 4:        
+                lfoFreq = randomColor[1] + 1 / randomColor [2] + 1
+                __("#lfo1").attr({ frequency: lfoFreq, gain: randomColor[0] + 1 }).start();
                 break;
             case 5:
-                lfoFreq = randomColor[2] / randomColor [0]
-                __("#lfo2").attr({ frequency: lfoFreq, gain: randomColor[1] }).start();
+                lfoFreq = randomColor[2] + 1 / randomColor [0] + 1
+                __("#lfo2").attr({ frequency: lfoFreq, gain: randomColor[1] + 1  }).start();
                 break;
             case 6:
-                lfoFreq = randomColor[0] / randomColor [1]
-                __("#lfo3").attr({ frequency:lfoFreq,gain: randomColor[2] }).start();
+                lfoFreq = randomColor[0] + 1 / randomColor [1] + 1
+                __("#lfo3").attr({ frequency:lfoFreq,gain: randomColor[2] + 1}).start();
                 break;
             
             // Last row
