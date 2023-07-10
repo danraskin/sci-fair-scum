@@ -16,6 +16,13 @@ An Adafruit Flora Color Sensor (TCS34725) sends RBG color data to hosted node.js
 
 This hosted demonstration runs a node.js script which randomly generates RBG values every other second, replicating the function of the adafruit color sensor script 
 
-
 <img src="./demopic.png" alt="mobile home screen" width="200"/>
+
+No squares are selected, and no sound will play.
+
+<img src="./demopic2.png" alt="mobile home screen" width="200"/>
+
+Two signal paths have been triggered. The middle oscillators are being modified by an LFO.
+
+
 
