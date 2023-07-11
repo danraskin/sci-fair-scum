@@ -33,8 +33,6 @@ Explanatory Instagram posts by Haley Ryan
 
 <img src="./IMG_0343.jpg" alt="mobile home screen" width="400"/>
 
-<img src="./IMG_0361.PNG" alt="mobile home screen" width="400"/>
-
 <img src="./IMG_0362 (1).PNG" alt="mobile home screen" width="400"/>
 
 <img src="./IMG_0363 (1).PNG" alt="mobile home screen" width="400"/>
