@@ -25,7 +25,9 @@ Two signal paths have been triggered. The middle oscillators are being modified 
 
 *If an LFO (middle square) is deactivated while app is running, either by clicking 'reset' on square (top right corner) or 'MUTE' at bottom, it will not restart. Refresh browser to continue modifying LFO.*
 
-### APP IN ACTION!!! ###
+## APP IN ACTION!!! ###
+
+<hr />
 
 Explanatory Instagram posts by Haley Ryan
 
