@@ -13,7 +13,7 @@ Check out the demo [here](https://sci-fair-scum.herokuapp.com)
 
 An Adafruit Flora Color Sensor (TCS34725) sends RBG color data to hosted node.js server via python script on RaspberryPi. Users navigate to browser app, which receives live RBG color data. Users control sound by selecting a color, which is converted into sound using an experimental web audio library [i dropped my phone the screen cracked](https://github.com/billorcutt/i_dropped_my_phone_the_screen_cracked) by developer Bill Orcutt.
 
-This hosted demonstration runs a node.js script which randomly generates RBG values every other second, replicating the function of the Adafruit color sensor script 
+This hosted demonstration runs a node.js script which randomly generates RBG values every other second, replicating the function of the Raspberry Pi controller.
 
 <img src="./demopic.png" alt="mobile home screen" width="200"/>
 
