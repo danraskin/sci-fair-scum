@@ -4,16 +4,20 @@
 
 First presentated Dec 18, 2022 @ Cyanotopia, MPLS, MN
 
-Check out the demo [here](https://sci-fair-scum.herokuapp.com)
+- Check out the demo [here](https://sci-fair-scum.herokuapp.com)
+
+Users navigate a simple browser interface to convert RGB color data into electronic music. A light sensor ([Adafruit Flora Color Sensor](https://www.adafruit.com/product/1356)) attached to a Raspberry Pi sends RGB color data to the cloud. Node.js server utilizes Server-Sent Events to forward RGB color data to clients. Mobile users control the browser synthesizer by selecting constantly changing color data, which is converted into sound using an experimental web audio library [i dropped my phone the screen cracked](https://github.com/billorcutt/i_dropped_my_phone_the_screen_cracked) by developer Bill Orcutt.
 
 - Synth allows users to control three simultaneous signal chains, arranged as columns of three squares. 
 - Top square in column generate sinewaves (osc and subosc) based on 'R' value of selected 'RBG' color.
 - Middle squares modulate sine frequencies via an Low-Frequency Oscillator (LFO). LFO frequency and gain are set by ratios of R, G, and B values.
 - Bottom squares are Low-Pass Filters (LPF); they are currently deactivated, because the signal chain is not working properly.
 
-An Adafruit Flora Color Sensor (TCS34725) sends RBG color data to hosted node.js server via python script on RaspberryPi. Users navigate to browser app, which receives live RBG color data. Users control sound by selecting a color, which is converted into sound using an experimental web audio library [i dropped my phone the screen cracked](https://github.com/billorcutt/i_dropped_my_phone_the_screen_cracked) by developer Bill Orcutt.
-
 This hosted demonstration runs a node.js script which randomly generates RBG values every other second, replicating the function of the Raspberry Pi controller.
+
+<hr />
+
+## How to use
 
 <img src="./demopic.png" alt="mobile home screen" width="200"/>
 
